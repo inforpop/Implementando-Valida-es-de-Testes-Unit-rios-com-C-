@@ -1,0 +1,117 @@
+A implementação de validações em testes unitários com C# pode ser feita utilizando frameworks de testes, como o MSTest, NUnit ou xUnit. Cada um desses frameworks oferece ferramentas para criar e executar testes automatizados, garantindo que o código funcione conforme o esperado. Abaixo, mostrarei exemplos básicos usando o framework xUnit.
+
+### Configurando o Projeto com xUnit
+
+1. **Instale o pacote xUnit:**
+   No terminal, execute o seguinte comando na raiz do seu projeto:
+   ```bash
+   dotnet add package xunit
+   dotnet add package xunit.runner.visualstudio
+   ```
+
+2. **Crie um projeto de teste:**
+   Se você ainda não tem um projeto de teste, crie um novo projeto de teste:
+   ```bash
+   dotnet new xunit -n NomeDoSeuProjetoDeTeste
+   ```
+
+### Criando um Teste Unitário Básico
+
+Aqui está um exemplo de como criar um teste unitário simples com xUnit para validar uma função que soma dois números:
+
+1. **Crie a classe a ser testada:**
+   ```csharp
+   public class Calculadora
+   {
+       public int Somar(int a, int b)
+       {
+           return a + b;
+       }
+   }
+   ```
+
+2. **Crie a classe de teste:**
+   ```csharp
+   using Xunit;
+
+   public class CalculadoraTests
+   {
+       [Fact]
+       public void Somar_DeveRetornarSomaCorreta()
+       {
+           // Arrange
+           var calculadora = new Calculadora();
+           
+           // Act
+           int resultado = calculadora.Somar(2, 3);
+
+           // Assert
+           Assert.Equal(5, resultado);
+       }
+   }
+   ```
+
+### Tipos de Assert
+
+O xUnit oferece vários métodos de `Assert` para validar diferentes tipos de condições. Alguns exemplos incluem:
+
+- **Igualdade:**
+  ```csharp
+  Assert.Equal(expected, actual);
+  Assert.NotEqual(expected, actual);
+  ```
+
+- **Verdadeiro/Falso:**
+  ```csharp
+  Assert.True(condition);
+  Assert.False(condition);
+  ```
+
+- **Nulidade:**
+  ```csharp
+  Assert.Null(object);
+  Assert.NotNull(object);
+  ```
+
+- **Lançamento de Exceções:**
+  ```csharp
+  Assert.Throws<ExceptionType>(() => metodoQueLancaExcecao());
+  ```
+
+### Testes de Casos Específicos
+
+Para testes com múltiplos casos, você pode usar a anotação `[Theory]` junto com `[InlineData]`:
+
+```csharp
+public class CalculadoraTests
+{
+    [Theory]
+    [InlineData(1, 1, 2)]
+    [InlineData(2, 3, 5)]
+    [InlineData(-1, -1, -2)]
+    public void Somar_DeveRetornarSomaCorreta_ParaMultiplosValores(int a, int b, int esperado)
+    {
+        // Arrange
+        var calculadora = new Calculadora();
+        
+        // Act
+        int resultado = calculadora.Somar(a, b);
+
+        // Assert
+        Assert.Equal(esperado, resultado);
+    }
+}
+```
+
+### Executando os Testes
+
+Para executar os testes, você pode usar o comando:
+```bash
+dotnet test
+```
+
+Esse comando irá compilar o projeto de teste e executar todos os testes unitários encontrados.
+
+### Conclusão
+
+Os testes unitários são uma parte essencial do desenvolvimento de software, garantindo que as partes individuais do código funcionem conforme o esperado. Utilizando frameworks como xUnit, você pode escrever testes claros e concisos para validar a lógica do seu código em C#.
